@@ -2,7 +2,6 @@ import { MagnifyingGlassIcon, ShoppingCartIcon, UserIcon } from "@phosphor-icons
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
-
 function Navbar() {
 
 	const navigate = useNavigate()
