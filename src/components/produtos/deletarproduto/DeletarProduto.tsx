@@ -1,58 +1,63 @@
 import { useEffect, useState } from "react"
-import type Categoria from "../../../models/Categoria"
 import { deletar, listar } from "../../../services/Service"
 import { useNavigate, useParams } from "react-router-dom"
 import { RotatingLines } from "react-loader-spinner"
-import { Check, X } from "@phosphor-icons/react"
+import type Produto from "../../../models/Produto"
 
 
-function DeleteCategoria() {
+function DeletarProduto() {
 
     const navigate = useNavigate()
  
     const [isLoading, setIsLoading] = useState<boolean>(false)
    
-    const [categoria, setCategoria] = useState<Categoria>({} as Categoria)
+    const [produto, setProduto] = useState<Produto>({} as Produto)
 
     const { id } = useParams<{ id: string }>()
 
-    async function listarCategoriaPorid(id: string){
+    async function listarProdutoPorid(id: string){
             try {
-                await listar(`/categorias/${id}`, setCategoria, {
+                await listar(`/produtos/${id}`, setProduto, {
 
                 })
 
             } catch (error: any) {
                 if(error.toString().includes("401")){
-                    alert("Não listou as categorias!")
+                    alert("Não listou os produtos!")
                 }
             } 
     }
 
     useEffect(()=>{
         if (id !== undefined){
-            listarCategoriaPorid(id)
+            listarProdutoPorid(id)
         }else{
-            setCategoria({
+            setProduto({
                 id: undefined,
                 nome: "",
+                preco: 0,
+                foto: "",
+                categoria: {
+                  id: undefined,
+                  nome: ""
+                }
             })
         }
     }, [id])
 
-    async function deletarCategoria() {
+    async function deletarProduto() {
         setIsLoading(true)
 
         try {
-            await deletar(`/categorias/${id}`, {
+            await deletar(`/produtos/${id}`, {
 
             })
 
-            alert("Categoria foi excluída com sucesso!")
+            alert("Produto foi excluído com sucesso!")
 
         } catch (error: any) {
             {
-                alert("Erro ao Excluir a categoria!")
+                alert("Erro ao Excluir o produto!")
                 console.error(error)
             }
         }
@@ -62,31 +67,31 @@ function DeleteCategoria() {
     }
 
     function retornar(){
-        navigate("/categorias")
+        navigate("/produtos")
     }
 
     return (
         <div className='container w-1/3 mx-auto'>
-            <h1 className='text-4xl text-center my-4'>Deletar Categoria</h1>
+            <h1 className='text-4xl text-center my-4'>Deletar Produto</h1>
             <p className='text-center font-semibold mb-4'>
-                Você tem certeza de que deseja apagar a categoria a seguir?</p>
+                Você tem certeza de que deseja apagar o produto a seguir?</p>
             <div className='border flex flex-col rounded-2xl overflow-hidden justify-between'>
                 <header 
-                    className='py-2 px-6 bg-indigo-900 text-white font-bold text-2xl'>
-                    Categoria
+                    className='py-2 px-6 bg-indigo-600 text-white font-bold text-2xl'>
+                    Produto
                 </header>
-                <p className='p-8 text-3xl bg-slate-200 h-full'>{categoria.nome}</p>
+                <p className='p-8 text-3xl bg-slate-200 h-full'>{produto.nome}</p>
                 <div className="flex">
                     <button 
-                        className='w-full text-slate-100 bg-red-400 hover:bg-red-600 flex items-center justify-center'
+                        className='text-slate-100 bg-red-400 hover:bg-red-600 w-full py-2'
                         onClick={retornar}
                         >
-                        <X size={28} weight="bold" />
+                        Não
                     </button>
                     <button 
                         className='w-full text-slate-100 bg-indigo-400 
                                    hover:bg-indigo-600 flex items-center justify-center'
-                        onClick={deletarCategoria}           
+                        onClick={deletarProduto}           
                         >
                         {isLoading ? 
                                 <RotatingLines
@@ -97,7 +102,7 @@ function DeleteCategoria() {
                                     visible={true}
                                 /> 
                                 : 
-                                <Check size={28} weight="bold" />
+                                <span>Sim, Quero Deletar!</span>
                         }                
                     </button>
                 </div>
@@ -106,4 +111,4 @@ function DeleteCategoria() {
     )
 }
 
-export default DeleteCategoria
+export default DeletarProduto

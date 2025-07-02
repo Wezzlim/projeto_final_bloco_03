@@ -38,7 +38,7 @@ function Navbar() {
 							<input
 								className="w-10/12 px-4 py-4 bg-white rounded-lg h-9 focus:outline-none"
 								type="search"
-								placeholder="Pesquisar produto pelo nome"
+								placeholder="Procurar"
 								id="nome"
 								name="nome"
 								required
@@ -47,7 +47,7 @@ function Navbar() {
 							/>
 							<button
 								type="submit"
-								className="h-9 w-9 p-2.5 ms-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-900 rounded-lg border border-teal-700"
+								className="h-9 w-9 p-2.5 ms-2 text-sm font-medium text-white bg-cyan-400 hover:bg-teal-900 rounded-lg border border-teal-700"
 							>
 								<MagnifyingGlassIcon
 									size={14}
@@ -70,6 +70,8 @@ function Navbar() {
 						>
 							Cadastrar Categoria
 						</Link>
+						<Link to='/produtos' className='hover:underline'>Produtos</Link>  
+						<Link to='/cadastrarproduto' className="hover:underline">Cadastrar Produto</Link>
 							<UserIcon
 								size={32}
 								weight="bold"
